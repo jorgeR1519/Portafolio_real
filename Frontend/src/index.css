@@ -1,45 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
 :root {
-  font-family: Consolas, "Courier New", monospace;
+  font-family: 'Share Tech Mono', monospace;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --accent: #ffffff;
+  --accent-alt: #d9d9d9;
+  --border: rgba(255, 255, 255, 0.25);
+  --text: #f1f1f1;
+  --text-strong: #ffffff;
+  --muted: #c7c7c7;
+  --accent-soft: #f3f3f3;
+  --panel: rgba(0, 0, 0, 0.84);
+  --surface: rgba(0, 0, 0, 0.7);
+  --surface-strong: rgba(0, 0, 0, 0.92);
+  --surface-top: rgba(255, 255, 255, 0.05);
+  --tag-bg: rgba(255, 255, 255, 0.06);
+  --shadow: 0 24px 80px rgba(255, 255, 255, 0.08);
+  --button-foreground: #000000;
+  color: var(--text);
+  background: #000000;
+}
+
+:root[data-theme='day'] {
   --accent: #00ff85;
-  --accent-alt: #00c2ff;
-  --border: rgba(0, 255, 133, 0.16);
+  --accent-alt: #44ffb1;
+  --border: rgba(0, 255, 133, 0.22);
   --text: #c9ffd9;
   --text-strong: #effff5;
   --muted: #91b79d;
   --accent-soft: #74ffbb;
-  --panel: rgba(4, 16, 11, 0.78);
-  --surface: rgba(9, 27, 20, 0.82);
-  --surface-strong: rgba(7, 31, 20, 0.95);
-  --surface-top: rgba(255, 255, 255, 0.04);
+  --panel: rgba(3, 25, 14, 0.9);
+  --surface: rgba(7, 38, 24, 0.88);
+  --surface-strong: rgba(5, 31, 18, 0.96);
+  --surface-top: rgba(0, 255, 133, 0.06);
   --tag-bg: rgba(0, 255, 133, 0.09);
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  --shadow: 0 24px 60px rgba(0, 255, 133, 0.08);
   --button-foreground: #04110b;
-  color: var(--text);
-  background: linear-gradient(135deg, #030907 0%, #071612 40%, #020504 100%);
-}
-
-:root[data-theme='day'] {
-  --accent: #0c8f68;
-  --accent-alt: #1466d6;
-  --border: rgba(12, 143, 104, 0.16);
-  --text: #163529;
-  --text-strong: #0a2219;
-  --muted: #4d6d63;
-  --accent-soft: #0b7455;
-  --panel: rgba(243, 255, 250, 0.82);
-  --surface: rgba(255, 255, 255, 0.86);
-  --surface-strong: rgba(234, 251, 244, 0.98);
-  --surface-top: rgba(12, 143, 104, 0.06);
-  --tag-bg: rgba(12, 143, 104, 0.08);
-  --shadow: 0 24px 60px rgba(27, 73, 59, 0.14);
-  --button-foreground: #f5fffb;
-  background: linear-gradient(135deg, #e8fff4 0%, #def8f2 52%, #f7fffd 100%);
+  background: linear-gradient(135deg, #04110b 0%, #062014 48%, #082a1a 100%);
 }
 
 * {
@@ -50,6 +52,11 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   min-width: 320px;
@@ -57,6 +64,7 @@ body {
   color: var(--text);
   background: inherit;
   transition: background 0.35s ease, color 0.35s ease;
+  overflow-x: hidden;
 }
 
 body::before {
@@ -64,40 +72,13 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(rgba(0, 255, 133, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 255, 133, 0.03) 1px, transparent 1px);
-  background-size: 100% 36px, 36px 100%;
-  opacity: 0.8;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 0);
+  background-size: 20px 20px;
+  opacity: 0.7;
 }
 
 :root[data-theme='day'] body::before {
-  background:
-    linear-gradient(rgba(12, 143, 104, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(12, 143, 104, 0.035) 1px, transparent 1px);
-}
-
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 255, 133, 0.02) 50%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  animation: scanline 9s linear infinite;
-}
-
-:root[data-theme='day'] body::after {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(12, 143, 104, 0.03) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background-image: radial-gradient(circle at 1px 1px, rgba(0, 255, 133, 0.08) 1px, transparent 0);
 }
 
 a {
@@ -114,6 +95,7 @@ p {
 h1,
 h2,
 h3 {
+  font-family: 'Orbitron', monospace;
   color: var(--text-strong);
   letter-spacing: 0.04em;
 }
@@ -126,13 +108,4 @@ textarea {
 
 #root {
   position: relative;
-}
-
-@keyframes scanline {
-  from {
-    transform: translateY(-100%);
-  }
-  to {
-    transform: translateY(100%);
-  }
 }

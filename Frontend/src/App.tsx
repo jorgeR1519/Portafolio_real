@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import './App.css'
 
@@ -162,6 +162,28 @@ const languageIcons: Record<string, string> = {
   HTB: 'https://www.hackthebox.com/images/landingv3/HTB-favicon.svg',
 }
 
+const sectionIcons: Record<string, string> = {
+  about: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg',
+  experience:
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg',
+  education:
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg',
+  skills:
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
+  projects:
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
+  certifications:
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg',
+  contact:
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg',
+  location:
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firefox/firefox-original.svg',
+  email:
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg',
+  phone:
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg',
+}
+
 const tabs: { id: WindowTab; label: string; hint: string }[] = [
   { id: 'about', label: 'Sobre mi', hint: 'Perfil y enlaces' },
   { id: 'experience', label: 'Experiencia', hint: 'Trayectoria profesional' },
@@ -175,6 +197,7 @@ const tabs: { id: WindowTab; label: string; hint: string }[] = [
 const PROJECTS_PER_PAGE = 4
 
 function App() {
+  const matrixRef = useRef<HTMLCanvasElement | null>(null)
   const [projects, setProjects] = useState<Project[]>([])
   const [loadingProjects, setLoadingProjects] = useState(true)
   const [projectsError, setProjectsError] = useState('')
@@ -187,6 +210,62 @@ function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
+  }, [theme])
+
+  useEffect(() => {
+    const canvas = matrixRef.current
+    if (!canvas) {
+      return
+    }
+
+    const context = canvas.getContext('2d')
+    if (!context) {
+      return
+    }
+
+    let animationFrame = 0
+    let drops: number[] = []
+    const fontSize = 16
+    const letters = '01'
+
+    const resize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+      const columns = Math.floor(canvas.width / fontSize)
+      drops = Array(columns).fill(1)
+    }
+
+    const draw = () => {
+      const isDay = document.documentElement.dataset.theme === 'day'
+      context.fillStyle = isDay
+        ? 'rgba(248, 255, 252, 0.08)'
+        : 'rgba(0, 0, 0, 0.08)'
+      context.fillRect(0, 0, canvas.width, canvas.height)
+      context.fillStyle = isDay ? 'rgba(17, 111, 86, 0.85)' : 'rgba(255, 255, 255, 0.82)'
+      context.font = `${fontSize}px "Share Tech Mono"`
+
+      for (let index = 0; index < drops.length; index += 1) {
+        const text = letters[Math.floor(Math.random() * letters.length)]
+        context.fillText(text, index * fontSize, drops[index] * fontSize)
+
+        if (drops[index] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[index] = 0
+        }
+
+        drops[index] += 1
+      }
+
+      animationFrame = window.requestAnimationFrame(draw)
+    }
+
+    resize()
+    draw()
+    window.addEventListener('resize', resize)
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame)
+      window.removeEventListener('resize', resize)
+    }
   }, [theme])
 
   useEffect(() => {
@@ -263,6 +342,7 @@ function App() {
           <div className="window-pane__header">
             <p className="eyebrow">Sobre mi</p>
             <h2>Jorge Enrique Renteria Mosquera</h2>
+            <p className="terminal-prompt">jorge@portfolio:~$ perfil profesional cargado</p>
           </div>
           <div className="about-layout">
             <div className="about-card">
@@ -276,9 +356,30 @@ function App() {
             <div className="about-card about-card--wide">
               <div className="identity-block">
                 <h3>Desarrollador Full Stack</h3>
-                <p>Santiago de Cali, Colombia</p>
-                <p>jorgeleviakerman@gmail.com</p>
-                <p>+57 3226536242</p>
+                <p className="inline-icon-row">
+                  <img
+                    className="section-icon"
+                    src={sectionIcons.location}
+                    alt="Icono de ubicacion"
+                  />
+                  <span>Santiago de Cali, Colombia</span>
+                </p>
+                <p className="inline-icon-row">
+                  <img
+                    className="section-icon"
+                    src={sectionIcons.email}
+                    alt="Icono de correo"
+                  />
+                  <span>jorgeleviakerman@gmail.com</span>
+                </p>
+                <p className="inline-icon-row">
+                  <img
+                    className="section-icon"
+                    src={sectionIcons.phone}
+                    alt="Icono de telefono"
+                  />
+                  <span>+57 3226536242</span>
+                </p>
               </div>
               <p className="section__text">
                 Tecnologo en Analisis y Desarrollo de Software con foco en
@@ -339,10 +440,16 @@ function App() {
           <div className="window-pane__header">
             <p className="eyebrow">Experiencia</p>
             <h2>Trayectoria profesional</h2>
+            <p className="terminal-prompt">jorge@portfolio:~$ cat experiencia.log</p>
           </div>
           <div className="timeline-grid">
             {experience.map((item) => (
               <article className="info-card" key={item.company}>
+                <img
+                  className="card-icon"
+                  src={sectionIcons.experience}
+                  alt="Icono de experiencia"
+                />
                 <p className="project-card__index">{item.period}</p>
                 <h3>{item.company}</h3>
                 <p className="info-card__subtitle">{item.role}</p>
@@ -360,10 +467,16 @@ function App() {
           <div className="window-pane__header">
             <p className="eyebrow">Educacion</p>
             <h2>Formacion academica</h2>
+            <p className="terminal-prompt">jorge@portfolio:~$ ls educacion/</p>
           </div>
           <div className="timeline-grid">
             {education.map((item) => (
               <article className="info-card" key={item.title}>
+                <img
+                  className="card-icon"
+                  src={sectionIcons.education}
+                  alt="Icono de educacion"
+                />
                 <p className="project-card__index">{item.period}</p>
                 <h3>{item.title}</h3>
                 <p className="info-card__subtitle">{item.place}</p>
@@ -380,10 +493,16 @@ function App() {
           <div className="window-pane__header">
             <p className="eyebrow">Skills</p>
             <h2>Stack, automatizacion y seguridad</h2>
+            <p className="terminal-prompt">jorge@portfolio:~$ scan --skills --security</p>
           </div>
           <div className="skills-grid">
             {skillGroups.map((group) => (
               <article className="info-card" key={group.title}>
+                <img
+                  className="card-icon"
+                  src={sectionIcons.skills}
+                  alt="Icono de skill"
+                />
                 <h3>{group.title}</h3>
                 <ul className="stack-list stack-list--spaced">
                   {group.items.map((item) => (
@@ -396,6 +515,11 @@ function App() {
           <div className="timeline-grid timeline-grid--small">
             {languages.map((item) => (
               <article className="info-card" key={item.name}>
+                <img
+                  className="card-icon"
+                  src={sectionIcons.education}
+                  alt="Icono de idioma"
+                />
                 <p className="project-card__index">Idioma</p>
                 <h3>{item.name}</h3>
                 <p className="info-card__subtitle">{item.level}</p>
@@ -412,6 +536,7 @@ function App() {
           <div className="window-pane__header">
             <p className="eyebrow">Proyectos</p>
             <h2>Repositorios cargados desde la API</h2>
+            <p className="terminal-prompt">jorge@portfolio:~$ fetch /api/projects</p>
           </div>
           {loadingProjects ? (
             <p className="status-card">Cargando proyectos...</p>
@@ -506,10 +631,16 @@ function App() {
           <div className="window-pane__header">
             <p className="eyebrow">Certificaciones</p>
             <h2>Credenciales y validacion tecnica</h2>
+            <p className="terminal-prompt">jorge@portfolio:~$ verify --certs</p>
           </div>
           <div className="certifications-grid">
             {certifications.map((certification) => (
               <article className="cert-card" key={certification.id}>
+                <img
+                  className="card-icon"
+                  src={sectionIcons.certifications}
+                  alt="Icono de certificacion"
+                />
                 <div className="cert-card__badge">{certification.year}</div>
                 <p className="project-card__index">Certificacion</p>
                 <h3>{certification.title}</h3>
@@ -527,14 +658,41 @@ function App() {
         <div className="window-pane__header">
           <p className="eyebrow">Canal seguro</p>
           <h2>Ventana de contacto</h2>
+          <p className="terminal-prompt">jorge@portfolio:~$ open secure_channel</p>
         </div>
         <div className="contact-summary">
           <div className="info-card">
+            <img
+              className="card-icon"
+              src={sectionIcons.contact}
+              alt="Icono de contacto"
+            />
             <p className="project-card__index">Contacto directo</p>
             <h3>Datos visibles</h3>
-            <p>jorgeleviakerman@gmail.com</p>
-            <p>+57 3226536242</p>
-            <p>Santiago de Cali, Colombia</p>
+            <p className="inline-icon-row">
+              <img
+                className="section-icon"
+                src={sectionIcons.email}
+                alt="Icono de correo"
+              />
+              <span>jorgeleviakerman@gmail.com</span>
+            </p>
+            <p className="inline-icon-row">
+              <img
+                className="section-icon"
+                src={sectionIcons.phone}
+                alt="Icono de telefono"
+              />
+              <span>+57 3226536242</span>
+            </p>
+            <p className="inline-icon-row">
+              <img
+                className="section-icon"
+                src={sectionIcons.location}
+                alt="Icono de ubicacion"
+              />
+              <span>Santiago de Cali, Colombia</span>
+            </p>
           </div>
         </div>
         <form className="contact-form" onSubmit={handleSubmit}>
@@ -592,6 +750,7 @@ function App() {
 
   return (
     <main className="page">
+      <canvas ref={matrixRef} className="matrix-canvas" aria-hidden="true" />
       <div className="page__glow page__glow--left" aria-hidden="true" />
       <div className="page__glow page__glow--right" aria-hidden="true" />
       <div className="page__glow page__glow--center" aria-hidden="true" />
@@ -634,14 +793,36 @@ function App() {
             <p className="eyebrow">Terminal Portfolio</p>
             <h1>Jorge Enrique Renteria Mosquera</h1>
             <p className="hero__lead">Desarrollador Full Stack</p>
+            <p className="terminal-prompt">jorge@portfolio:~$ init --full-stack --security</p>
             <p className="hero__text">
               Desarrollo aplicaciones, automatizaciones, integraciones con IA y
               soluciones seguras con enfoque full stack.
             </p>
             <div className="hero__microdata">
-              <span>Santiago de Cali, Colombia</span>
-              <span>jorgeleviakerman@gmail.com</span>
-              <span>+57 3226536242</span>
+              <span>
+                <img
+                  className="section-icon"
+                  src={sectionIcons.location}
+                  alt="Icono de ubicacion"
+                />
+                <span>Santiago de Cali, Colombia</span>
+              </span>
+              <span>
+                <img
+                  className="section-icon"
+                  src={sectionIcons.email}
+                  alt="Icono de correo"
+                />
+                <span>jorgeleviakerman@gmail.com</span>
+              </span>
+              <span>
+                <img
+                  className="section-icon"
+                  src={sectionIcons.phone}
+                  alt="Icono de telefono"
+                />
+                <span>+57 3226536242</span>
+              </span>
             </div>
             <div className="hero__actions">
               <button
@@ -681,14 +862,29 @@ function App() {
             <div className="hero-window__stats">
               <span className="hero__badge">Sistema activo</span>
               <div className="stat-box">
+                <img
+                  className="card-icon card-icon--small"
+                  src={sectionIcons.projects}
+                  alt="Icono de proyectos"
+                />
                 <strong>{projects.length || '08'}</strong>
                 <span>Repos destacados</span>
               </div>
               <div className="stat-box">
+                <img
+                  className="card-icon card-icon--small"
+                  src={sectionIcons.certifications}
+                  alt="Icono de certificaciones"
+                />
                 <strong>02</strong>
                 <span>Certificaciones</span>
               </div>
               <div className="stat-box">
+                <img
+                  className="card-icon card-icon--small"
+                  src={sectionIcons.education}
+                  alt="Icono de idiomas"
+                />
                 <strong>B2</strong>
                 <span>Ingles tecnico</span>
               </div>
@@ -708,6 +904,11 @@ function App() {
               }
               onClick={() => setActiveTab(tab.id)}
             >
+              <img
+                className="nav-icon"
+                src={sectionIcons[tab.id]}
+                alt={`Icono de ${tab.label}`}
+              />
               <span className="window-tab__label">{tab.label}</span>
               <span className="window-tab__hint">{tab.hint}</span>
             </button>
