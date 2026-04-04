@@ -1,0 +1,138 @@
+:root {
+  font-family: Consolas, "Courier New", monospace;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --accent: #00ff85;
+  --accent-alt: #00c2ff;
+  --border: rgba(0, 255, 133, 0.16);
+  --text: #c9ffd9;
+  --text-strong: #effff5;
+  --muted: #91b79d;
+  --accent-soft: #74ffbb;
+  --panel: rgba(4, 16, 11, 0.78);
+  --surface: rgba(9, 27, 20, 0.82);
+  --surface-strong: rgba(7, 31, 20, 0.95);
+  --surface-top: rgba(255, 255, 255, 0.04);
+  --tag-bg: rgba(0, 255, 133, 0.09);
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  --button-foreground: #04110b;
+  color: var(--text);
+  background: linear-gradient(135deg, #030907 0%, #071612 40%, #020504 100%);
+}
+
+:root[data-theme='day'] {
+  --accent: #0c8f68;
+  --accent-alt: #1466d6;
+  --border: rgba(12, 143, 104, 0.16);
+  --text: #163529;
+  --text-strong: #0a2219;
+  --muted: #4d6d63;
+  --accent-soft: #0b7455;
+  --panel: rgba(243, 255, 250, 0.82);
+  --surface: rgba(255, 255, 255, 0.86);
+  --surface-strong: rgba(234, 251, 244, 0.98);
+  --surface-top: rgba(12, 143, 104, 0.06);
+  --tag-bg: rgba(12, 143, 104, 0.08);
+  --shadow: 0 24px 60px rgba(27, 73, 59, 0.14);
+  --button-foreground: #f5fffb;
+  background: linear-gradient(135deg, #e8fff4 0%, #def8f2 52%, #f7fffd 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--text);
+  background: inherit;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(0, 255, 133, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 133, 0.03) 1px, transparent 1px);
+  background-size: 100% 36px, 36px 100%;
+  opacity: 0.8;
+}
+
+:root[data-theme='day'] body::before {
+  background:
+    linear-gradient(rgba(12, 143, 104, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(12, 143, 104, 0.035) 1px, transparent 1px);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 255, 133, 0.02) 50%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  animation: scanline 9s linear infinite;
+}
+
+:root[data-theme='day'] body::after {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(12, 143, 104, 0.03) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--text-strong);
+  letter-spacing: 0.04em;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+#root {
+  position: relative;
+}
+
+@keyframes scanline {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
