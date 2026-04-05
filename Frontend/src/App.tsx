@@ -55,6 +55,113 @@ const certifications = [
   },
 ]
 
+const portfolioProjects: Project[] = [
+  {
+    id: 1,
+    title: 'Chat_box_WPP',
+    description:
+      'Chatbot de WhatsApp para agendamiento de citas con Flask, Selenium, API REST y envio de correos.',
+    stack: ['Python', 'Flask', 'Selenium', 'SMTP'],
+    github: 'https://github.com/jorgeR1519/Chat_box_WPP',
+    demo: '',
+    language: 'Python',
+    updated_at: '2026-03-10',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Chat_box_WPP',
+  },
+  {
+    id: 2,
+    title: 'prueba_tecnica',
+    description:
+      'Aplicacion full stack con FastAPI, Vue.js, autenticacion JWT e integracion de chat con Ollama.',
+    stack: ['FastAPI', 'Vue', 'JWT', 'Ollama'],
+    github: 'https://github.com/jorgeR1519/prueba_tecnica',
+    demo: '',
+    language: 'Vue',
+    updated_at: '2026-03-08',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/prueba_tecnica',
+  },
+  {
+    id: 3,
+    title: 'Proyecto_Agendacion_citas',
+    description:
+      'Sistema de agendacion para clinica dental con FastAPI, chat con IA, exportacion Excel y reportes PDF.',
+    stack: ['FastAPI', 'Ollama', 'Pandas', 'ReportLab'],
+    github: 'https://github.com/jorgeR1519/Proyecto_Agendacion_citas',
+    demo: '',
+    language: 'Python',
+    updated_at: '2026-03-07',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Proyecto_Agendacion_citas',
+  },
+  {
+    id: 4,
+    title: 'Script_Machines_HTB',
+    description:
+      'Coleccion de scripts para Hack The Box orientados a enumeracion, explotacion y automatizacion en pentesting.',
+    stack: ['Python', 'Security', 'HTB'],
+    github: 'https://github.com/jorgeR1519/Script_Machines_HTB',
+    demo: '',
+    language: 'Python',
+    updated_at: '2026-02-24',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Script_Machines_HTB',
+  },
+  {
+    id: 5,
+    title: 'hacking_labs',
+    description:
+      'Repositorio de laboratorios practicos con escenarios reproducibles para aprender vectores de ataque de forma controlada y etica.',
+    stack: ['Security', 'Docker', 'Labs'],
+    github: 'https://github.com/jorgeR1519/hacking_labs',
+    demo: '',
+    language: 'Python',
+    updated_at: '2026-02-02',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/hacking_labs',
+  },
+  {
+    id: 6,
+    title: 'API_Rest_Node',
+    description:
+      'API RESTful con Node.js, TypeScript, JWT y arquitectura limpia para autenticacion y operaciones CRUD.',
+    stack: ['TypeScript', 'Node.js', 'JWT'],
+    github: 'https://github.com/jorgeR1519/API_Rest_Node',
+    demo: '',
+    language: 'TypeScript',
+    updated_at: '2025-06-19',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/API_Rest_Node',
+  },
+  {
+    id: 7,
+    title: 'Aplicativo-Gestion-Inventario',
+    description:
+      'Aplicacion web en Laravel para la gestion integral de un restaurante, incluyendo menus, pedidos, mesas y facturacion.',
+    stack: ['Laravel', 'MySQL', 'Bootstrap', 'Tailwind'],
+    github: 'https://github.com/jorgeR1519/Aplicativo-Gestion-Inventario',
+    demo: '',
+    language: 'CSS',
+    updated_at: '2025-05-26',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Aplicativo-Gestion-Inventario',
+  },
+  {
+    id: 8,
+    title: 'Proyecto-Termacool',
+    description:
+      'Sistema web en Laravel para gestionar compras, solicitudes, aprobaciones y ordenes con control de acceso por roles.',
+    stack: ['Laravel', 'MySQL', 'Security'],
+    github: 'https://github.com/jorgeR1519/Proyecto-Termacool',
+    demo: '',
+    language: 'PHP',
+    updated_at: '2025-05-26',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Proyecto-Termacool',
+  },
+]
+
 const experience = [
   {
     company: 'AISEING S.A.S.',
@@ -198,9 +305,7 @@ const PROJECTS_PER_PAGE = 4
 
 function App() {
   const matrixRef = useRef<HTMLCanvasElement | null>(null)
-  const [projects, setProjects] = useState<Project[]>([])
-  const [loadingProjects, setLoadingProjects] = useState(true)
-  const [projectsError, setProjectsError] = useState('')
+  const [projects] = useState<Project[]>(portfolioProjects)
   const [form, setForm] = useState<ContactForm>(initialForm)
   const [sending, setSending] = useState(false)
   const [formMessage, setFormMessage] = useState('')
@@ -268,53 +373,21 @@ function App() {
     }
   }, [theme])
 
-  useEffect(() => {
-    const loadProjects = async () => {
-      try {
-        const response = await fetch('/api/projects')
-
-        if (!response.ok) {
-          throw new Error('No se pudieron cargar los proyectos.')
-        }
-
-        const data: Project[] = await response.json()
-        setProjects(data)
-        setCurrentProjectPage(1)
-      } catch (error) {
-        setProjectsError(
-          error instanceof Error
-            ? error.message
-            : 'Ocurrio un error al consultar la API.',
-        )
-      } finally {
-        setLoadingProjects(false)
-      }
-    }
-
-    void loadProjects()
-  }, [])
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setSending(true)
     setFormMessage('')
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      })
-
-      if (!response.ok) {
-        throw new Error('No fue posible enviar el mensaje.')
-      }
-
-      const data: { message?: string } = await response.json()
+      const subject = encodeURIComponent(
+        `Contacto desde portafolio - ${form.name}`,
+      )
+      const body = encodeURIComponent(
+        `Nombre: ${form.name}\nCorreo: ${form.email}\n\nMensaje:\n${form.message}`,
+      )
+      window.location.href = `mailto:jorgeleviakerman@gmail.com?subject=${subject}&body=${body}`
       setForm(initialForm)
-      setFormMessage(data.message ?? 'Mensaje enviado correctamente.')
+      setFormMessage('Se abrio tu cliente de correo para enviar el mensaje.')
     } catch (error) {
       setFormMessage(
         error instanceof Error
@@ -535,92 +608,91 @@ function App() {
         <section className="window-pane">
           <div className="window-pane__header">
             <p className="eyebrow">Proyectos</p>
-            <h2>Repositorios cargados desde la API</h2>
+            <h2>Proyectos integrados directamente en el frontend</h2>
             <p className="terminal-prompt">jorge@portfolio:~$ fetch /api/projects</p>
           </div>
-          {loadingProjects ? (
-            <p className="status-card">Cargando proyectos...</p>
-          ) : projectsError ? (
-            <p className="status-card status-card--error">{projectsError}</p>
-          ) : (
-            <>
-              <div className="projects-grid">
-                {paginatedProjects.map((project) => (
-                  <article className="project-card" key={project.id}>
-                    {project.image ? (
-                      <img
-                        className="project-card__image"
-                        src={project.image}
-                        alt={`Vista previa del repositorio ${project.title}`}
-                        loading="lazy"
-                      />
+          <>
+            <p className="section__text">
+              Esta version del portafolio no depende del backend. Los proyectos
+              se renderizan directamente desde el frontend para funcionar bien
+              en Vercel.
+            </p>
+            <div className="projects-grid">
+              {paginatedProjects.map((project) => (
+                <article className="project-card" key={project.id}>
+                  {project.image ? (
+                    <img
+                      className="project-card__image"
+                      src={project.image}
+                      alt={`Vista previa del repositorio ${project.title}`}
+                      loading="lazy"
+                    />
+                  ) : null}
+                  <p className="project-card__index">Proyecto {project.id}</p>
+                  <h3>{project.title}</h3>
+                  <p>{project.description}</p>
+                  <div className="project-card__meta">
+                    {project.language ? <span>{project.language}</span> : null}
+                    {project.updated_at ? (
+                      <span>Actualizado {project.updated_at}</span>
                     ) : null}
-                    <p className="project-card__index">Proyecto {project.id}</p>
-                    <h3>{project.title}</h3>
-                    <p>{project.description}</p>
-                    <div className="project-card__meta">
-                      {project.language ? <span>{project.language}</span> : null}
-                      {project.updated_at ? (
-                        <span>Actualizado {project.updated_at}</span>
-                      ) : null}
-                    </div>
-                    <ul className="project-card__stack">
-                      {project.stack.map((item) => (
-                        <li key={item}>
-                          {languageIcons[item] ? (
-                            <img
-                              className="tech-icon"
-                              src={languageIcons[item]}
-                              alt={`Icono de ${item}`}
-                              loading="lazy"
-                            />
-                          ) : null}
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="project-card__links">
-                      <a href={project.github} target="_blank" rel="noreferrer">
-                        GitHub
+                  </div>
+                  <ul className="project-card__stack">
+                    {project.stack.map((item) => (
+                      <li key={item}>
+                        {languageIcons[item] ? (
+                          <img
+                            className="tech-icon"
+                            src={languageIcons[item]}
+                            alt={`Icono de ${item}`}
+                            loading="lazy"
+                          />
+                        ) : null}
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="project-card__links">
+                    <a href={project.github} target="_blank" rel="noreferrer">
+                      GitHub
+                    </a>
+                    {project.demo ? (
+                      <a href={project.demo} target="_blank" rel="noreferrer">
+                        Demo
                       </a>
-                      {project.demo ? (
-                        <a href={project.demo} target="_blank" rel="noreferrer">
-                          Demo
-                        </a>
-                      ) : null}
-                    </div>
-                  </article>
-                ))}
-              </div>
-              <div className="pagination" aria-label="Paginacion de proyectos">
-                <button
-                  type="button"
-                  className="pagination__button"
-                  onClick={() =>
-                    setCurrentProjectPage((page) => Math.max(1, page - 1))
-                  }
-                  disabled={currentProjectPage === 1}
-                >
-                  Anterior
-                </button>
-                <span className="pagination__status">
-                  Pagina {currentProjectPage} de {totalProjectPages}
-                </span>
-                <button
-                  type="button"
-                  className="pagination__button"
-                  onClick={() =>
-                    setCurrentProjectPage((page) =>
-                      Math.min(totalProjectPages, page + 1),
-                    )
-                  }
-                  disabled={currentProjectPage === totalProjectPages}
-                >
-                  Siguiente
-                </button>
-              </div>
-            </>
-          )}
+                    ) : null}
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="pagination" aria-label="Paginacion de proyectos">
+              <button
+                type="button"
+                className="pagination__button"
+                onClick={() =>
+                  setCurrentProjectPage((page) => Math.max(1, page - 1))
+                }
+                disabled={currentProjectPage === 1}
+              >
+                Anterior
+              </button>
+              <span className="pagination__status">
+                Pagina {currentProjectPage} de {totalProjectPages}
+              </span>
+              <button
+                type="button"
+                className="pagination__button"
+                onClick={() =>
+                  setCurrentProjectPage((page) =>
+                    Math.min(totalProjectPages, page + 1),
+                  )
+                }
+                disabled={currentProjectPage === totalProjectPages}
+              >
+                Siguiente
+              </button>
+            </div>
+          </>
         </section>
       )
     }
@@ -696,6 +768,10 @@ function App() {
           </div>
         </div>
         <form className="contact-form" onSubmit={handleSubmit}>
+          <p className="section__text">
+            En esta version desplegada en Vercel, el formulario abre tu cliente
+            de correo en lugar de enviar datos a una API.
+          </p>
           <label>
             Nombre
             <input
