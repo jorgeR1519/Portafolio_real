@@ -608,14 +608,13 @@ function App() {
         <section className="window-pane">
           <div className="window-pane__header">
             <p className="eyebrow">Proyectos</p>
-            <h2>Proyectos integrados directamente en el frontend</h2>
-            <p className="terminal-prompt">jorge@portfolio:~$ fetch /api/projects</p>
+            <h2>Proyectos realizados</h2>
+            <p className="terminal-prompt">jorge@portfolio:~$ ls proyectos-realizados</p>
           </div>
           <>
             <p className="section__text">
-              Esta version del portafolio no depende del backend. Los proyectos
-              se renderizan directamente desde el frontend para funcionar bien
-              en Vercel.
+              Seleccion de proyectos desarrollados en backend, frontend,
+              automatizacion, integracion de IA y ciberseguridad.
             </p>
             <div className="projects-grid">
               {paginatedProjects.map((project) => (
