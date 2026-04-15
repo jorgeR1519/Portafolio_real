@@ -164,6 +164,20 @@ const portfolioProjects: Project[] = [
 
 const experience = [
   {
+    company: 'EXXTRA S.A.S.',
+    role: 'Desarrollador Full Stack',
+    period: 'Marzo 2026 - Actualidad',
+    summary:
+      'Migracion de backend desde Node.js a FastAPI, estructurando APIs REST por modulos. Integracion con MongoDB y manejo de logica de negocio para creditos, clientes y pagos. Implementacion de autenticacion con JWT, control de roles, integracion con Payzen y sistemas externos, ademas de desarrollo frontend con Vue.js para consumo de APIs y gestion operativa.',
+  },
+  {
+    company: 'PRONTO S.A.S.',
+    role: 'Desarrollador Full Stack',
+    period: 'Marzo 2026 - Actualidad',
+    summary:
+      'Desarrollo de sistema de cotizacion de seguros con integracion de bots RPA. Implementacion de backend en FastAPI con autenticacion, roles y logica de estados. Integracion de procesos RPA como Fasecolda y Tarificador con trazabilidad rpaRuns, frontend en Vue.js, generacion de PDFs versionados, envio automatizado, pruebas, estabilizacion y despliegue productivo.',
+  },
+  {
     company: 'AISEING S.A.S.',
     role: 'Gestor de proyectos / Soporte tecnico',
     period: 'Agosto 2025 - Enero 2026',
