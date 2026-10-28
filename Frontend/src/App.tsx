@@ -385,14 +385,7 @@ function App() {
     const fontSize = 16
     const letters = '01'
 
-    const resize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-      const columns = Math.floor(canvas.width / fontSize)
-      drops = Array(columns).fill(1)
-    }
-
-    const draw = () => {
+    const paint = () => {
       const isDay = document.documentElement.dataset.theme === 'day'
       context.fillStyle = isDay
         ? 'rgba(248, 255, 252, 0.08)'
@@ -405,13 +398,30 @@ function App() {
         const text = letters[Math.floor(Math.random() * letters.length)]
         context.fillText(text, index * fontSize, drops[index] * fontSize)
 
-        if (drops[index] * fontSize > canvas.height && Math.random() > 0.975) {
+        if (drops[index] * fontSize > canvas.height) {
           drops[index] = 0
         }
 
         drops[index] += 1
       }
 
+    }
+
+    const resize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+      const columns = Math.ceil(canvas.width / fontSize)
+      const rows = Math.ceil(canvas.height / fontSize)
+      // Stagger streams across the viewport instead of starting a single wave.
+      drops = Array.from({ length: columns }, () => Math.floor(Math.random() * rows))
+      // Populate the trails immediately, including after resizing the viewport.
+      for (let frame = 0; frame < 40; frame += 1) {
+        paint()
+      }
+    }
+
+    const draw = () => {
+      paint()
       animationFrame = window.requestAnimationFrame(draw)
     }
 
