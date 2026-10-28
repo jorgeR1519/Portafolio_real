@@ -26,6 +26,7 @@ type WindowTab =
   | 'education'
   | 'skills'
   | 'projects'
+  | 'bounty'
   | 'certifications'
   | 'contact'
 type ThemeMode = 'night' | 'day'
@@ -35,6 +36,68 @@ const initialForm: ContactForm = {
   email: '',
   message: '',
 }
+
+const linkedInUrl =
+  'https://www.linkedin.com/in/jorge-enrique-renteria-mosquera-a18576247/'
+const bountyRepository = 'https://github.com/jorgeR1519/Bug_bounty'
+
+const bountyReports = [
+  {
+    title: 'bpost · Divulgación de información',
+    platform: 'Intigriti',
+    status: 'Aceptado',
+    severity: 'Alta · CVSS 7.5',
+    description:
+      'Mi primer hallazgo aceptado: una validación incorrecta de entradas en el seguimiento de paquetes permitía divulgar información de los envíos. El equipo de seguridad de bpost validó y aceptó el reporte tras el proceso de triaje.',
+    detail: 'Reportado el 28 de mayo de 2026 · Aceptado el 9 de julio de 2026',
+    path: 'bpost-track-items-information-disclosure',
+    featured: true,
+  },
+  {
+    title: 'Netafim GrowSphere · Autorización de perfiles',
+    platform: 'Netafim · Sin recompensa',
+    status: 'Duplicado',
+    severity: 'Media · 6.5',
+    description:
+      'Identifiqué un fallo de autorización a nivel de objeto (BOLA / IDOR) que permitía modificar el perfil de otra cuenta cambiando el identificador del usuario sin alterar la sesión autenticada. Validé el comportamiento con dos cuentas bajo mi control.',
+    detail: 'Reportado el 12 de octubre de 2026 · Duplicado el 15 de octubre de 2026',
+    path: 'netafim-growsphere-profile-update-idor',
+    featured: false,
+  },
+  {
+    title: 'Netafim GrowSphere · Gestión de usuarios de finca',
+    platform: 'Netafim · Sin recompensa',
+    status: 'Duplicado',
+    severity: 'Media · 6.5',
+    description:
+      'Desde la gestión de usuarios de finca, documenté modificaciones de nombre, apellido y teléfono de otra cuenta mediante la API de usuarios. Los intentos de cambiar rol y correo no tuvieron éxito; no se demostró escalada de privilegios.',
+    detail: 'Duplicado el 12 de octubre de 2026 · Reporte separado sobre la misma API de perfiles',
+    path: 'netafim-growsphere-farm-users-access-control',
+    featured: false,
+  },
+  {
+    title: 'U.S. Treasury VDP · Inicio de sesión VPN',
+    platform: 'Bugcrowd',
+    status: 'Informativo',
+    severity: 'Informativo · P5',
+    description:
+      'Evaluación de controles frente a intentos repetidos de autenticación en un portal VPN. Documenté la ausencia de limitación de intentos observable y propuse controles de protección para el flujo de acceso.',
+    detail: 'Controles de acceso · Rate limiting · Reporte técnico',
+    path: 'treasury-vdp-vpn-login-rate-limit-p5',
+    featured: false,
+  },
+  {
+    title: 'U.S. Treasury VDP · Recuperación de contraseña',
+    platform: 'Bugcrowd',
+    status: 'Revisado y reproducido',
+    severity: 'Informativo · P5',
+    description:
+      'Análisis de la ausencia de controles observables de rate limiting en un flujo de recuperación de contraseña. Reporte revisado y reproducido durante el triaje, clasificado como informativo.',
+    detail: 'Seguridad de autenticación · Análisis de solicitudes HTTP',
+    path: 'treasury-vdp-rate-limit-p5',
+    featured: false,
+  },
+]
 
 const certifications = [
   {
@@ -58,107 +121,86 @@ const certifications = [
 const portfolioProjects: Project[] = [
   {
     id: 1,
+    title: 'hacking_labs',
+    description:
+      'Colección de laboratorios reproducibles para estudiar vulnerabilidades y vectores de ataque en entornos controlados. Incluye escenarios con Docker para practicar y comprender fallos de seguridad de forma ética.',
+    stack: ['Python', 'Docker', 'Security', 'Labs'],
+    github: 'https://github.com/jorgeR1519/hacking_labs',
+    language: 'Python',
+    updated_at: '2026-10-27',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/hacking_labs',
+  },
+  {
+    id: 2,
+    title: 'Cyber_Quest',
+    description:
+      'Proyecto académico en Python y Tkinter con cuatro misiones de seguridad digital. Separa lógica, contenido e interfaz, con gráficos en Canvas, puntuación, progreso en memoria y pruebas automatizadas de las reglas del juego.',
+    stack: ['Python', 'Tkinter', 'Canvas', 'unittest'],
+    github: 'https://github.com/jorgeR1519/Cyber_Quest',
+    language: 'Python',
+    updated_at: '2026-10-27',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Cyber_Quest',
+  },
+  {
+    id: 3,
+    title: 'barbershop-ia-whatsapp',
+    description:
+      'Automatización de citas para barberías con n8n, Evolution API y MySQL. Integra IA para interpretar mensajes de texto y voz, consultar disponibilidad y gestionar reservas, cambios y cancelaciones.',
+    stack: ['n8n', 'Evolution API', 'MySQL', 'OpenAI', 'Whisper'],
+    github: 'https://github.com/jorgeR1519/barbershop-ia-whatsapp',
+    updated_at: '2026-07-05',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/barbershop-ia-whatsapp',
+  },
+  {
+    id: 4,
+    title: 'API_Rest_Node',
+    description:
+      'API con Node.js, Express y TypeScript para gestionar clientes y productos mediante operaciones CRUD. Persistencia en MongoDB con Mongoose, organización por módulos, respuestas JSON y endpoint de verificación de estado.',
+    stack: ['TypeScript', 'Node.js', 'Express', 'MongoDB'],
+    github: 'https://github.com/jorgeR1519/API_Rest_Node',
+    language: 'TypeScript',
+    updated_at: '2026-04-25',
+    image:
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/API_Rest_Node',
+  },
+  {
+    id: 5,
     title: 'Chat_box_WPP',
     description:
-      'Chatbot de WhatsApp para agendamiento de citas con Flask, Selenium, API REST y envio de correos.',
+      'Chatbot de WhatsApp Web con Python, Flask y Selenium para agendar citas, registrar usuarios y validar disponibilidad. Expone una API REST y envía confirmaciones por correo electrónico mediante SMTP.',
     stack: ['Python', 'Flask', 'Selenium', 'SMTP'],
     github: 'https://github.com/jorgeR1519/Chat_box_WPP',
-    demo: '',
     language: 'Python',
     updated_at: '2026-03-10',
     image:
       'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Chat_box_WPP',
   },
   {
-    id: 2,
-    title: 'prueba_tecnica',
-    description:
-      'Aplicacion full stack con FastAPI, Vue.js, autenticacion JWT e integracion de chat con Ollama.',
-    stack: ['FastAPI', 'Vue', 'JWT', 'Ollama'],
-    github: 'https://github.com/jorgeR1519/prueba_tecnica',
-    demo: '',
-    language: 'Vue',
-    updated_at: '2026-03-08',
-    image:
-      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/prueba_tecnica',
-  },
-  {
-    id: 3,
-    title: 'Proyecto_Agendacion_citas',
-    description:
-      'Sistema de agendacion para clinica dental con FastAPI, chat con IA, exportacion Excel y reportes PDF.',
-    stack: ['FastAPI', 'Ollama', 'Pandas', 'ReportLab'],
-    github: 'https://github.com/jorgeR1519/Proyecto_Agendacion_citas',
-    demo: '',
-    language: 'Python',
-    updated_at: '2026-03-07',
-    image:
-      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Proyecto_Agendacion_citas',
-  },
-  {
-    id: 4,
+    id: 6,
     title: 'Script_Machines_HTB',
     description:
-      'Coleccion de scripts para Hack The Box orientados a enumeracion, explotacion y automatizacion en pentesting.',
+      'Scripts desarrollados al resolver máquinas y retos de Hack The Box. Automatizan tareas de enumeración, análisis de respuestas HTTP y validación de vulnerabilidades, con comentarios para su estudio en laboratorios autorizados.',
     stack: ['Python', 'Security', 'HTB'],
     github: 'https://github.com/jorgeR1519/Script_Machines_HTB',
-    demo: '',
     language: 'Python',
     updated_at: '2026-02-24',
     image:
       'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Script_Machines_HTB',
   },
   {
-    id: 5,
-    title: 'hacking_labs',
-    description:
-      'Repositorio de laboratorios practicos con escenarios reproducibles para aprender vectores de ataque de forma controlada y etica.',
-    stack: ['Security', 'Docker', 'Labs'],
-    github: 'https://github.com/jorgeR1519/hacking_labs',
-    demo: '',
-    language: 'Python',
-    updated_at: '2026-02-02',
-    image:
-      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/hacking_labs',
-  },
-  {
-    id: 6,
-    title: 'API_Rest_Node',
-    description:
-      'API RESTful con Node.js, TypeScript, JWT y arquitectura limpia para autenticacion y operaciones CRUD.',
-    stack: ['TypeScript', 'Node.js', 'JWT'],
-    github: 'https://github.com/jorgeR1519/API_Rest_Node',
-    demo: '',
-    language: 'TypeScript',
-    updated_at: '2025-06-19',
-    image:
-      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/API_Rest_Node',
-  },
-  {
     id: 7,
     title: 'Aplicativo-Gestion-Inventario',
     description:
-      'Aplicacion web en Laravel para la gestion integral de un restaurante, incluyendo menus, pedidos, mesas y facturacion.',
+      'Aplicación web para administrar menús, mesas, pedidos y facturación. Desarrollada con Laravel y MySQL, con roles y permisos para los distintos perfiles del restaurante, reportes y notificaciones internas.',
     stack: ['Laravel', 'MySQL', 'Bootstrap', 'Tailwind'],
     github: 'https://github.com/jorgeR1519/Aplicativo-Gestion-Inventario',
-    demo: '',
-    language: 'CSS',
-    updated_at: '2025-05-26',
-    image:
-      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Aplicativo-Gestion-Inventario',
-  },
-  {
-    id: 8,
-    title: 'Proyecto-Termacool',
-    description:
-      'Sistema web en Laravel para gestionar compras, solicitudes, aprobaciones y ordenes con control de acceso por roles.',
-    stack: ['Laravel', 'MySQL', 'Security'],
-    github: 'https://github.com/jorgeR1519/Proyecto-Termacool',
-    demo: '',
     language: 'PHP',
     updated_at: '2025-05-26',
     image:
-      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Proyecto-Termacool',
+      'https://opengraph.githubassets.com/portfolio-preview/jorgeR1519/Aplicativo-Gestion-Inventario',
   },
 ]
 
@@ -193,9 +235,9 @@ const education = [
     period: '2022 - 2025',
   },
   {
-    title: 'Ingenieria en Sistemas',
+    title: 'Ingeniería en Sistemas',
     place: 'Universidad Jose Antonio Camacho',
-    period: 'Inicio previsto 2026',
+    period: '2026 - Actualidad · En curso',
   },
 ]
 
@@ -286,6 +328,8 @@ const sectionIcons: Record<string, string> = {
     'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
   projects:
     'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
+  bounty:
+    'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg',
   certifications:
     'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bash/bash-original.svg',
   contact:
@@ -304,6 +348,7 @@ const tabs: { id: WindowTab; label: string; hint: string }[] = [
   { id: 'education', label: 'Educacion', hint: 'Formacion academica' },
   { id: 'skills', label: 'Skills', hint: 'Stack y seguridad' },
   { id: 'projects', label: 'Proyectos', hint: 'Repositorios y demos' },
+  { id: 'bounty', label: 'Bug Bounty', hint: 'bpost y divulgación responsable' },
   { id: 'certifications', label: 'Certificaciones', hint: 'Credenciales' },
   { id: 'contact', label: 'Contactarme', hint: 'Canal directo' },
 ]
@@ -462,16 +507,18 @@ function App() {
                 </p>
               </div>
               <p className="section__text">
-                Tecnologo en Analisis y Desarrollo de Software con foco en
-                desarrollo de aplicaciones, automatizacion y soluciones con
-                integracion de IA. Experiencia practica en proyectos Full Stack
-                usando Laravel, Django, Flask, Node.js y herramientas modernas
-                de despliegue; ademas de experiencia en pruebas de seguridad
-                como complemento para entregar software robusto y seguro.
+                Tecnólogo en Análisis y Desarrollo de Software y estudiante de
+                Ingeniería en Sistemas. Desarrollo aplicaciones full stack,
+                automatizaciones e integraciones con IA con Laravel, FastAPI,
+                Python y React. Tengo experiencia en APIs REST, autenticación,
+                gestión de roles y soluciones que mejoran procesos de negocio.
               </p>
               <p className="section__text">
-                Busco roles centrados en desarrollo de software donde aportar
-                buenas practicas, automatizacion y entrega continua.
+                Busco oportunidades como desarrollador para aportar en la
+                construcción de aplicaciones, automatización y entrega de
+                soluciones funcionales. Como actividad complementaria, participo
+                en bug bounty y cuento con las certificaciones eJPTv2 e ISO/IEC
+                27001 Foundation: conocimientos que aplico al desarrollo seguro.
               </p>
               <ul className="stack-list stack-list--spaced">
                 <li>FastAPI</li>
@@ -485,9 +532,8 @@ function App() {
                 <p className="project-card__index">Portafolio / Writeups</p>
                 <h3>Blog de Hack The Box</h3>
                 <p>
-                  Publicas writeups y analisis tecnicos de maquinas y
-                  laboratorios, reforzando tu perfil de desarrollo con enfoque
-                  en seguridad.
+                  Publico writeups y análisis técnicos de máquinas y
+                  laboratorios para compartir mi aprendizaje en seguridad ofensiva.
                 </p>
                 <div className="hero__actions hero__actions--compact">
                   <a
@@ -505,6 +551,9 @@ function App() {
                     className="button button--ghost"
                   >
                     Abrir GitHub
+                  </a>
+                  <a href={linkedInUrl} target="_blank" rel="noreferrer" className="button button--ghost">
+                    LinkedIn
                   </a>
                 </div>
               </div>
@@ -615,13 +664,14 @@ function App() {
         <section className="window-pane">
           <div className="window-pane__header">
             <p className="eyebrow">Proyectos</p>
-            <h2>Proyectos realizados</h2>
+            <h2>Proyectos de desarrollo destacados</h2>
             <p className="terminal-prompt">jorge@portfolio:~$ ls proyectos-realizados</p>
           </div>
           <>
             <p className="section__text">
-              Seleccion de proyectos desarrollados en backend, frontend,
-              automatizacion, integracion de IA y ciberseguridad.
+              Aplicaciones web, APIs, automatizaciones y un videojuego educativo
+              en Python, junto con laboratorios y scripts que complementan mi
+              experiencia de desarrollo con conocimientos de seguridad.
             </p>
             <div className="projects-grid">
               {paginatedProjects.map((project) => (
@@ -703,6 +753,66 @@ function App() {
       )
     }
 
+    if (activeTab === 'bounty') {
+      return (
+        <section className="window-pane" aria-labelledby="bounty-title">
+          <div className="window-pane__header">
+            <p className="eyebrow">Actividad complementaria · Bug Bounty</p>
+            <h2 id="bounty-title">Hallazgos con impacto real</h2>
+            <p className="terminal-prompt">jorge@portfolio:~$ cat responsible-disclosure.log</p>
+            <p className="section__text">
+              Complemento mi trabajo como desarrollador con investigación de
+              seguridad en aplicaciones web y APIs. Esta práctica me ayuda a
+              mejorar la validación de entradas, la autenticación y los controles
+              de acceso de las soluciones que construyo.
+            </p>
+          </div>
+          <div className="bounty-summary" aria-label="Resultados de bug bounty">
+            <div className="stat-box"><strong>01</strong><span>Hallazgo aceptado · bpost</span></div>
+            <div className="stat-box"><strong>7.5</strong><span>CVSS · Severidad alta</span></div>
+            <div className="stat-box"><strong>{String(bountyReports.filter((report) => report.status === 'Duplicado').length).padStart(2, '0')}</strong><span>Reportes duplicados · Netafim</span></div>
+          </div>
+          <div className="bounty-reports">
+            {bountyReports.map((report) => (
+              <article className={`project-card${report.featured ? ' bounty-card--featured' : ''}`} key={report.path}>
+                <div className="bounty-card__labels">
+                  <span className="bounty-status">{report.status}</span>
+                  <span>{report.severity}</span>
+                </div>
+                <p className="project-card__index">{report.platform}</p>
+                <h3>{report.title}</h3>
+                <p>{report.description}</p>
+                <p className="bounty-card__detail">{report.detail}</p>
+                <div className="project-card__links">
+                  <a href={`${bountyRepository}/tree/main/${report.path}`} target="_blank" rel="noreferrer">
+                    Leer reporte público<span className="sr-only">: {report.title}</span>
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="blog-card bounty-methodology">
+            <h3>Metodología y divulgación responsable</h3>
+            <p>
+              Utilizo Burp Suite, análisis de solicitudes HTTP y pruebas manuales
+              para validar el comportamiento observado y documentar su impacto.
+              Los reportes públicos omiten datos sensibles y evidencias privadas.
+              Los duplicados se presentan con su estado y clasificación propios.
+              Los dos reportes de Netafim corresponden a flujos distintos sobre
+              la misma API de perfiles; se cuentan como dos reportes, sin afirmar
+              que sean dos causas raíz independientes.
+            </p>
+            <ul className="stack-list">
+              <li>Burp Suite</li><li>OWASP Top 10</li><li>Web &amp; API Security</li><li>Reportes técnicos</li>
+            </ul>
+            <div className="project-card__links">
+              <a href={bountyRepository} target="_blank" rel="noreferrer">Explorar repositorio de Bug Bounty</a>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
     if (activeTab === 'certifications') {
       return (
         <section className="window-pane">
@@ -747,6 +857,7 @@ function App() {
             />
             <p className="project-card__index">Contacto directo</p>
             <h3>Datos visibles</h3>
+            <p><a href={linkedInUrl} target="_blank" rel="noreferrer">Contactar por LinkedIn</a></p>
             <p className="inline-icon-row">
               <img
                 className="section-icon"
@@ -877,8 +988,10 @@ function App() {
             <p className="hero__lead">Desarrollador Full Stack</p>
             <p className="terminal-prompt">jorge@portfolio:~$ init --full-stack --security</p>
             <p className="hero__text">
-              Desarrollo aplicaciones, automatizaciones, integraciones con IA y
-              soluciones seguras con enfoque full stack.
+              Desarrollo aplicaciones web, APIs REST, automatizaciones e
+              integraciones con IA. Tecnólogo en Desarrollo de Software y
+              estudiante de Ingeniería en Sistemas, en búsqueda de oportunidades
+              como desarrollador.
             </p>
             <div className="hero__microdata">
               <span>
@@ -921,6 +1034,9 @@ function App() {
               >
                 Ver experiencia
               </button>
+              <button type="button" className="button button--ghost" onClick={() => setActiveTab('bounty')}>
+                Logros en Bug Bounty
+              </button>
               <a
                 href="https://github.com/jorgeR1519?tab=repositories"
                 className="button button--ghost"
@@ -937,6 +1053,9 @@ function App() {
               >
                 Ver blog HTB
               </a>
+              <a href={linkedInUrl} className="button button--ghost" target="_blank" rel="noreferrer">
+                LinkedIn
+              </a>
             </div>
           </div>
 
@@ -949,7 +1068,7 @@ function App() {
                   src={sectionIcons.projects}
                   alt="Icono de proyectos"
                 />
-                <strong>{projects.length || '08'}</strong>
+                <strong>{String(projects.length).padStart(2, '0')}</strong>
                 <span>Repos destacados</span>
               </div>
               <div className="stat-box">
@@ -985,6 +1104,7 @@ function App() {
                 activeTab === tab.id ? 'window-tab is-active' : 'window-tab'
               }
               onClick={() => setActiveTab(tab.id)}
+              aria-current={activeTab === tab.id ? 'page' : undefined}
             >
               <img
                 className="nav-icon"
